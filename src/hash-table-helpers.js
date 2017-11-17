@@ -71,14 +71,17 @@ class LinkedList {
     if (key === this.head.data.key) return this.removeHead();
     if (key === this.tail.data.key) return this.removeTail();
     let testNode = this.head;
+    let removedValue;
     while (testNode.next) {
       const prevNode = testNode;
       testNode = testNode.next;
       if (testNode.data.key === key) {
+        removedValue = testNode.data.value;
         prevNode.next = testNode.next;
         testNode = testNode.next;
       }
     }
+    return removedValue;
   }
   getValue(key) {
     let testNode = this.head;
