@@ -1,3 +1,94 @@
+// create a Linked list class
+class LinkedList {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+  // create a function to add to the end of a linked  list
+  addToTail(key, value) {
+    const newNode = {
+      data: {
+        key,
+        value,
+      },
+      next: null,
+    };
+    if (this.head === null) this.head = newNode;
+    if (this.tail === null) {
+      this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+      this.tail = newNode;
+    }
+  }
+  // create a function to remove something from the head of the list. Returns the value of the removed first item
+  removeHead() {
+    if (!this.head) return null;
+    if (!this.head.next) this.tail = null;
+    const removedHead = this.head;
+    this.head = this.head.next;
+    return removedHead.value;
+  }
+  removeTail() {
+    let testNode = this.head;
+    while (testNode.next !== this.tail) {
+      testNode = testNode.next;
+    }
+    const removedTail = this.tail;
+    this.tail.next = null;
+    this.tail = testNode.next;
+    return removedTail;
+  }
+  // create a function to check the linked list for an item given
+  contains(value) {
+    let testNode = this.head;
+    while (testNode !== null) {
+      if (testNode.value === value) return true;
+      testNode = testNode.next;
+    }
+    return false;
+  }
+  // create a function to see if the key is already in the linked list
+  hasThisKey(key) {
+    let testNode = this.head;
+    while (testNode !== null) {
+      if (testNode.data.key === key) return true;
+      testNode = testNode.next;
+    }
+    return false;
+  }
+  // create a function to replace a value with a newer value in the linked list
+  replaceValue(key, value) {
+    let testNode = this.head;
+    while (testNode !== null) {
+      if (testNode.data.key === key) testNode.data.value = value;
+      testNode = testNode.next;
+    }
+    return undefined;
+  }
+  removeValue(key) {
+    if (!this.head) return;
+    if (key === this.head.data.key) return this.removeHead();
+    if (key === this.tail.data.key) return this.removeTail();
+    let testNode = this.head;
+    while (testNode.next) {
+      const prevNode = testNode;
+      testNode = testNode.next;
+      if (testNode.data.key === key) {
+        prevNode.next = testNode.next;
+        testNode = testNode.next;
+      }
+    }
+  }
+  getValue(key) {
+    let testNode = this.head;
+    while (testNode !== null) {
+      if (testNode.data.key === key) return testNode.data.value;
+      testNode = testNode.next;
+    }
+    return undefined;
+  }
+}
 // A special array class that can only store the number of items specified by the `limit` argument
 class LimitedArray {
   constructor(limit) {
@@ -5,6 +96,9 @@ class LimitedArray {
     // Use the getter and setter methods included in this class to manipulate data in this class
     this.storage = [];
     this.limit = limit;
+    for (let i = 0; i < this.limit; i++) {
+      this.storage[i] = new LinkedList();
+    }
   }
 
   checkLimit(index) {
@@ -52,4 +146,5 @@ const getIndexBelowMax = (str, max) => {
 module.exports = {
   LimitedArray,
   getIndexBelowMax,
+  LinkedList,
 };
